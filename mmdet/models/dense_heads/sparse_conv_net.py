@@ -14,7 +14,10 @@ from torch.nn.common_types import _size_1_t, _size_2_t, _size_3_t
 from typing import Optional, List, Tuple, Union
 
 import my_sparse_conv_cpu
-import sparse_conv
+try:
+    import sparse_conv
+except ImportError:
+    sparse_conv = None
 import os
 import time
 import pdb
