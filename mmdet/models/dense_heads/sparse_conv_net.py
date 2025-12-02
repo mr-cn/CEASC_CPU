@@ -13,7 +13,7 @@ import torch.multiprocessing as mp
 from torch.nn.common_types import _size_1_t, _size_2_t, _size_3_t
 from typing import Optional, List, Tuple, Union
 
-# import my_sparse_conv_cpu
+import my_sparse_conv_cpu
 import sparse_conv
 import os
 import time
@@ -57,8 +57,8 @@ class Sparse_conv2d(torch.autograd.Function):
             gnbias = gn.bias.type_as(input)
             eps = gn.eps
         if str(input.device) == 'cpu':
-            assert not str(input.device) == 'cpu', 'we do not support CPU inference, you can try codes in sparse_conv_cpu folder, but we cannot ensure the correctness'
-            # output = my_sparse_conv_cpu.forward(input, hard.type_as(input), weights, bias, stride[0], padding[0], isbias, base, groups, gnweight, gnbias, pw_mean, pw_rstd, eps, nonzero_hard[0], nonzero_hard[1])[0]
+            # assert not str(input.device) == 'cpu', 'we do not support CPU inference, you can try codes in sparse_conv_cpu folder, but we cannot ensure the correctness'
+            output = my_sparse_conv_cpu.forward(input, hard.type_as(input), weights, bias, stride[0], padding[0], isbias, base, groups, gnweight, gnbias, pw_mean, pw_rstd, eps, nonzero_hard[0], nonzero_hard[1])[0]
         else:
             output = sparse_conv.forward(input, hard, weights, bias, stride[0], padding[0], isbias, base, groups, gnweight, gnbias, pw_mean, pw_rstd, eps, nonzero_hard[0], nonzero_hard[1])[0]
         variables = [input, hard, weights, bias, None, None, None, None, None, None, None]
